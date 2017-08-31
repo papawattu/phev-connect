@@ -2,7 +2,9 @@ import { subscribe, send, messages } from 'phev-mqtt'
 import { Observable } from 'rxjs'
 import net from 'net'
 
-const log = message => console.log
+const logging = process.env.DEBUG ? true : false
+
+const log = message => logging ? console.log(message) : undefined
 
 const client = new net.Socket();
 
