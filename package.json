@@ -28,5 +28,8 @@
     "cross-env": "^5.0.5",
     "mocha": "^3.5.0",
     "sinon": "^3.2.1"
+  },
+  "dependencies": {
+    "phev-mqtt": "^1.0.2"
   }
 }
