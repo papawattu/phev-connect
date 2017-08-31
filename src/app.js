@@ -1,4 +1,4 @@
-import { startPing, sendMessage } from './car_service'
+import { startPing, sendMessage, receivedMessages } from './car_service'
 import { Observable } from 'rxjs'
 const net = require('net');
 
