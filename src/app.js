@@ -31,6 +31,8 @@ const connect = (cmd,cb) => {
 	}
 }
 
+receivedMessages().subscribe(m => client.write(m))
+
 connect(0,()=>{
 
 });
