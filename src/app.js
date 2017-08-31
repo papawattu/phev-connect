@@ -18,6 +18,7 @@ const connect = (cmd, cb) => {
     })
 }
 
+subscribe('phev/send')
 messages('phev/send').subscribe(m => {
     client.write(m)
     log('Client : ' + m.toString('hex'))
