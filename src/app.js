@@ -12,7 +12,7 @@ const connect = (cmd,cb) => {
 
 		client.on('data',(data) => {
             sendMessage(data)
-            console.log('Car      ' + data.toString('hex'))
+            console.log('Car    : ' + data.toString('hex'))
         });
 		client.once('connect',() => {
 			console.log('Connected');		
