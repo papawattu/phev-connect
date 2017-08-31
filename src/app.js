@@ -11,9 +11,9 @@ const connect = (cmd,cb) => {
 		});
 
 		client.on('data',(data) => {
-            console.log(data.toString('hex'));
-            console.log('CAR ' + sendMessage(data))
-		});
+            sendMessage(data)
+            console.log('Car      ' + data.toString('hex'))
+        });
 		client.once('connect',() => {
 			console.log('Connected');		
                 	cb();
@@ -33,7 +33,7 @@ const connect = (cmd,cb) => {
 
 receivedMessages().subscribe(m => {
     client.write(m)
-    console.log('Client ' + m)
+    console.log('Client : ' + m.toString('hex'))
 })
 
 connect(0,()=>{
