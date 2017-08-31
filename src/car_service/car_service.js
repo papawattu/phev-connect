@@ -14,11 +14,11 @@ const REQUEST_TYPE = 0
 const RESPONSE_TYPE = 1
 const EMPTY_DATA = Buffer.from([0]);
 
-const sendMessage = message => send(sendTopic, message)
+const sendMessage = message => send(receiveTopic, message)
 
 const receivedMessages = () => {
-    subscribe(receiveTopic)
-    return messages(receiveTopic).map(x => x.message)
+    subscribe(sendTopic)
+    return messages(sendTopic).map(x => x.message)
 
 }
 
