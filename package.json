@@ -8,7 +8,8 @@
     "test-unit": "cross-env NODE_ENV=test DEBUG=true mocha --require babel-polyfill --compilers js:babel-core/register --recursive ./src/**/*.spec.js",
     "test-watch": "cross-env NODE_ENV=test DEBUG=true mocha --watch --require babel-polyfill --compilers js:babel-core/register --recursive ./src/**/*.spec.js",
     "build": "babel src -d lib",
-    "start": "npm run build && node lib/app.js"
+    "start": "npm run build && node lib",
+    "prepare": "babel src -d lib"
   },
   "repository": {
     "type": "git",
@@ -24,12 +25,12 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.0",
-    "chai": "^4.1.1",
+    "chai": "^4.1.2",
     "cross-env": "^5.0.5",
     "mocha": "^3.5.0",
     "sinon": "^3.2.1"
   },
   "dependencies": {
-    "phev-mqtt": "^1.0.2"
+    "phev-mqtt": "github:papawattu/phev-mqtt"
   }
 }

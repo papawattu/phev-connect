@@ -1,29 +1,20 @@
-import { subscribe, send, messages } from 'phev-mqtt'
-import { Observable } from 'rxjs'
-import net from 'net'
+import PhevConnect from './phev_connect'
+import mqtt from 'mqtt'
 
-const logging = process.env.DEBUG ? true : false
+const App = () => {
 
-const log = message => logging ? console.log(message) : undefined
-
-const client = new net.Socket();
-
-const connect = (cmd, cb) => {
-    log('Connecting');
-    client.connect(8080, '192.168.8.46', () => {
-        Observable.fromEvent(client,'data').subscribe(data => {
-            send('phev/receive', data)
-            log('Car    : ' + data.toString('hex'))
-        })
-    })
+    const mqttUri = process.env.MQTT_URI || 'wss://secure.wattu.com:8883/mqtt'
+    const phevConnect = PhevConnect({mqtt, mqttUri})
+    
+    const start = () => {
+        phevConnect.connect()
+    }
+    const stop = () => undefined
+    
+    return {
+        start: start,
+        stop: stop
+    }
 }
 
-subscribe('phev/send')
-messages('phev/send').subscribe(m => {
-    client.write(m.message)
-    log('Client : ' + m.message.toString('hex'))
-})
-
-connect(0, () => {
-
-});
+export default App
