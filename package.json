@@ -1,6 +1,6 @@
 {
   "name": "phev-connect",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "PHEV Connect",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,6 @@
     "sinon": "^3.2.1"
   },
   "dependencies": {
-    "phev-mqtt": "github:papawattu/phev-mqtt"
+    "phev-mqtt": "papawattu/phev-mqtt"
   }
 }
