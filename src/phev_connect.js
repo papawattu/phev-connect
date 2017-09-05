@@ -7,13 +7,15 @@ const carHost = process.env.CAR_HOST || '192.168.8.46'
 const carPort = process.env.CAR_PORT || 8080
 const phevReceive = process.env.PHEV_RECEIVE || 'phev/receive'
 const phevSend = process.env.PHEV_SEND || 'phev/send'
+const mqttUsername = process.env.MQTT_USERNAME || ''
+const mqttPassword = process.env.MQTT_PASSWORD || ''
 
 const log = message => logging ? console.log(message) : undefined
 
 const PhevConnect = ({mqtt, mqttUri}) => {
 
     const client = new net.Socket();
-    const phevMqtt = PhevMqtt({mqtt, mqttUri})
+    const phevMqtt = PhevMqtt({mqtt, mqttUri, options : {username: mqttUsername, password: mqttPassword}})
     
     const connect = () => {
         log('Connecting');
