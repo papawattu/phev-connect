@@ -3,7 +3,7 @@ import mqtt from 'mqtt'
 
 const App = () => {
 
-    const mqttUri = process.env.MQTT_URI || 'wss://secure.wattu.com:8883/mqtt'
+    const mqttUri = process.env.MQTT_URI || 'ws://secure.wattu.com:8080'
     const phevConnect = PhevConnect({mqtt, mqttUri})
     
     const start = () => {

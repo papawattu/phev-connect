@@ -15,7 +15,7 @@ const log = message => logging ? console.log(message) : undefined
 const PhevConnect = ({mqtt, mqttUri}) => {
 
     const client = new net.Socket();
-    const phevMqtt = PhevMqtt({mqtt, mqttUri, options : {username: mqttUsername, password: mqttPassword}})
+    const phevMqtt = PhevMqtt({mqtt, uri: mqttUri, options : {username: mqttUsername, password: mqttPassword}})
     
     const connect = () => {
         log('Connecting to ' + carHost + ':' + carPort);
