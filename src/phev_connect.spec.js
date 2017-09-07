@@ -27,4 +27,10 @@ describe('phev connect', () => {
         
         assert(mqtt.connect.withArgs('mqtt://test.mosquitto.org'.calledOnce))
     })
+    it('Should default mqtt', () => {
+        
+        const sut = PhevConnect({mqttUri: 'mqtt://test.mosquitto.org'})
+        
+        assert(sut)
+    })
 })

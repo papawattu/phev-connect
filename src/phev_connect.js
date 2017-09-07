@@ -9,10 +9,11 @@ const phevReceive = process.env.PHEV_RECEIVE || 'phev/receive'
 const phevSend = process.env.PHEV_SEND || 'phev/send'
 const mqttUsername = process.env.MQTT_USERNAME || ''
 const mqttPassword = process.env.MQTT_PASSWORD || ''
+const mqttUri = process.env.MQTT_URI || 'ws://secure.wattu.com:8080'
 
 const log = message => logging ? console.log(message) : undefined
 
-const PhevConnect = ({mqtt, mqttUri}) => {
+const PhevConnect = ({mqtt} = {}) => {
 
     const client = new net.Socket();
     const phevMqtt = PhevMqtt({mqtt, uri: mqttUri, options : {username: mqttUsername, password: mqttPassword}})
