@@ -18,7 +18,7 @@ const PhevConnect = ({mqtt, mqttUri}) => {
     const phevMqtt = PhevMqtt({mqtt, mqttUri, options : {username: mqttUsername, password: mqttPassword}})
     
     const connect = () => {
-        log('Connecting');
+        log('Connecting to ' + carHost + ':' + carPort);
         client.connect(carPort, carHost, () => {
             Observable.fromEvent(client, 'data').subscribe(data => {
                 phevMqtt.send(phevReceive, data)
@@ -27,6 +27,7 @@ const PhevConnect = ({mqtt, mqttUri}) => {
         })
     }
 
+    log('Subsribed to ' + phevSend + ' on ' + mqttUri)
     phevMqtt.subscribe(phevSend)
 
     phevMqtt.messages(phevSend).subscribe(m => {
