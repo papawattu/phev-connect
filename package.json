@@ -31,6 +31,6 @@
     "sinon": "^3.2.1"
   },
   "dependencies": {
-    "phev-mqtt": "papawattu/phev-mqtt"
+    "phev-mqtt": "github:papawattu/phev-mqtt"
   }
 }

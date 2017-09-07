@@ -17,8 +17,14 @@ describe('phev connect', () => {
     
     it('Should bootstrap', () => {
         
-        const sut = PhevConnect({mqtt, uri: ''})
+        const sut = PhevConnect({mqtt, mqttUri: 'test'})
         
         assert(sut.connect)
+    })
+    it('Should connect with passed in uri', () => {
+        
+        const sut = PhevConnect({mqtt, mqttUri: 'mqtt://test.mosquitto.org'})
+        
+        assert(mqtt.connect.withArgs('mqtt://test.mosquitto.org'.calledOnce))
     })
 })
