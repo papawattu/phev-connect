@@ -9,7 +9,7 @@ const phevReceive = process.env.PHEV_RECEIVE || 'phev/receive'
 const phevSend = process.env.PHEV_SEND || 'phev/send'
 const mqttUsername = process.env.MQTT_USERNAME || ''
 const mqttPassword = process.env.MQTT_PASSWORD || ''
-const mqttUri = process.env.MQTT_URI || 'ws://secure.wattu.com:8080'
+const mqttUri = process.env.MQTT_URI || 'mqtt://secure.wattu.com'
 
 const log = message => logging ? console.log(message) : undefined
 
