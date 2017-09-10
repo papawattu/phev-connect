@@ -21,11 +21,12 @@ const mqttUri = process.env.MQTT_URI || 'mqtt://secure.wattu.com'
 const PhevConnect = ({ mqtt } = {}) => {
 
     const phevMqtt = PhevMqtt({ mqtt, uri: mqttUri, options: { username: mqttUsername, password: mqttPassword } })
-
+    
+    const client = new net.Socket();
+    
     let connected = false
 
     const connectToCar = () => {
-        const client = new net.Socket();
         
         log.info('Connecting to ' + carHost + ':' + carPort);
         client.connect(carPort, carHost, () => {
@@ -36,14 +37,17 @@ const PhevConnect = ({ mqtt } = {}) => {
         })
         client.on('connect', () => {
             log.debug('Client connected')
+            connected = true
             phevMqtt.send('connection', 'connected')
         })
         client.on('end', () => {
             log.debug('Client socket ended')
+            connected = false
             phevMqtt.send(phevConnection, 'disconnected')
         })
         client.on('error', err => {
             log.debug('Client socket error ' + err)
+            connected = false
             phevMqtt.send(phevError, err)
         })
     }
