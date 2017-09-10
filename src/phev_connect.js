@@ -8,9 +8,11 @@ const carHost = process.env.CAR_HOST || '192.168.8.46'
 const carPort = process.env.CAR_PORT || 8080
 const phevReceive = process.env.PHEV_RECEIVE || 'phev/receive'
 const phevSend = process.env.PHEV_SEND || 'phev/send'
-const phevStatus = process.env.PHEV_STATUS || 'phev/status'
-const phevError = process.env.PHEV_STATUS || 'phev/error'
-const phevConnection = process.env.PHEV_STATUS || 'phev/connection'
+const phevStatus = 'phev/status'
+const phevError = 'phev/error'
+const phevConnection = 'phev/connection'
+const phevStart = 'phev/start'
+
 
 const mqttUsername = process.env.MQTT_USERNAME || ''
 const mqttPassword = process.env.MQTT_PASSWORD || ''
@@ -48,8 +50,8 @@ const PhevConnect = ({ mqtt } = {}) => {
 
     const connectToMqtt = () => {
         
-        log.debug('Subscribed to ' + phevSend + ' on ' + mqttUri)
-        phevMqtt.subscribe([phevSend, phevStatus])
+        log.debug('Subscribed ' + mqttUri)
+        phevMqtt.subscribe([phevSend, phevStatus, phevStart])
 
         phevMqtt.messages(phevSend).subscribe(m => {
             if (connected && !client.destroyed) {
