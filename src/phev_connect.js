@@ -16,14 +16,15 @@ const mqttUsername = process.env.MQTT_USERNAME || ''
 const mqttPassword = process.env.MQTT_PASSWORD || ''
 const mqttUri = process.env.MQTT_URI || 'mqtt://secure.wattu.com'
 
-const PhevConnect = ({mqtt} = {}) => {
+const PhevConnect = ({ mqtt } = {}) => {
 
-    const client = new net.Socket();
-    const phevMqtt = PhevMqtt({mqtt, uri: mqttUri, options : {username: mqttUsername, password: mqttPassword}})
-    
+    const phevMqtt = PhevMqtt({ mqtt, uri: mqttUri, options: { username: mqttUsername, password: mqttPassword } })
+
     let connected = false
 
-    const connect = () => {
+    const connectToCar = () => {
+        const client = new net.Socket();
+        
         log.info('Connecting to ' + carHost + ':' + carPort);
         client.connect(carPort, carHost, () => {
             Observable.fromEvent(client, 'data').subscribe(data => {
@@ -32,33 +33,44 @@ const PhevConnect = ({mqtt} = {}) => {
             })
         })
         client.on('connect', () => {
-            log.debug('Client connected')            
-            phevMqtt.send('connection','connected')
+            log.debug('Client connected')
+            phevMqtt.send('connection', 'connected')
         })
         client.on('end', () => {
             log.debug('Client socket ended')
-            phevMqtt.send(phevConnection,'disconnected')
+            phevMqtt.send(phevConnection, 'disconnected')
         })
         client.on('error', err => {
             log.debug('Client socket error ' + err)
-            phevMqtt.send(phevError,err)
+            phevMqtt.send(phevError, err)
         })
     }
 
-    log.debug('Subscribed to ' + phevSend + ' on ' + mqttUri)
-    phevMqtt.subscribe([phevSend,phevStatus])
-
-    phevMqtt.messages(phevSend).subscribe(m => {
-        if(connected && !client.destroyed) {
-            client.write(m.message)
-            log.debug('Client : ' + m.message.toString('hex'))
-        }
-    })
-    phevMqtt.messages(phevStatus).subscribe(m => {
-        log.debug('Status request')
-        phevMqtt.send(phevConnection, connected ? 'connected' : 'disconnected')
-    })
+    const connectToMqtt = () => {
         
+        log.debug('Subscribed to ' + phevSend + ' on ' + mqttUri)
+        phevMqtt.subscribe([phevSend, phevStatus])
+
+        phevMqtt.messages(phevSend).subscribe(m => {
+            if (connected && !client.destroyed) {
+                client.write(m.message)
+                log.debug('Client : ' + m.message.toString('hex'))
+            }
+        })
+        phevMqtt.messages(phevStatus).subscribe(m => {
+            log.debug('Status request')
+            phevMqtt.send(phevConnection, connected ? 'connected' : 'disconnected')
+        })
+
+        phevMqtt.messages(phevStart).subscribe(m => {
+            log.debug('Starts request')
+            connectToCar()
+        })
+    }
+    const connect = () => {
+        connectToMqtt()
+    }
+
     return {
         connect: connect
     }
