@@ -1,5 +1,5 @@
 import PhevMqtt from 'phev-mqtt'
-import log from 'phev-utils'
+import { log } from 'phev-utils'
 import { Observable } from 'rxjs'
 import net from 'net'
 
