@@ -42,8 +42,7 @@ const PhevConnect = ({ mqtt } = {}) => {
         })
         client.on('end', () => {
             log.debug('Client socket ended')
-            connected = false
-            phevMqtt.send(phevConnection, 'disconnected')
+            disconnect()
         })
         client.on('error', err => {
             log.debug('Client socket error ' + err)
@@ -52,6 +51,11 @@ const PhevConnect = ({ mqtt } = {}) => {
         })
     }
 
+    const disconnect = () => {
+        phevMqtt.send(phevConnection, 'disconnected')
+        connected = false
+        client.end()
+    }
     const connectToMqtt = () => {
         
         log.debug('Subscribed ' + mqttUri)
@@ -66,6 +70,11 @@ const PhevConnect = ({ mqtt } = {}) => {
         phevMqtt.messages(phevStatus).subscribe(m => {
             log.debug('Status request')
             phevMqtt.send(phevConnection, connected ? 'connected' : 'disconnected')
+        })
+
+        phevMqtt.messages(phevDisconnect).subscribe(m => {
+            log.debug('Disconnect request')
+            disconnect()
         })
 
         phevMqtt.messages(phevStart).subscribe(m => {
