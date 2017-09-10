@@ -12,7 +12,7 @@ const phevStatus = 'phev/status'
 const phevError = 'phev/error'
 const phevConnection = 'phev/connection'
 const phevStart = 'phev/start'
-
+const phevDisconnect = 'phev/disconnect'
 
 const mqttUsername = process.env.MQTT_USERNAME || ''
 const mqttPassword = process.env.MQTT_PASSWORD || ''
