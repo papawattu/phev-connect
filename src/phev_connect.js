@@ -65,6 +65,8 @@ const PhevConnect = ({ mqtt } = {}) => {
             if (connected && !client.destroyed) {
                 client.write(m.message)
                 log.debug('Client : ' + m.message.toString('hex'))
+            } else {
+                log.debug('Received message, not sending as not connected')
             }
         })
         phevMqtt.messages(phevStatus).subscribe(m => {
