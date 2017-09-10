@@ -28,7 +28,8 @@
     "babel-preset-env": "^1.6.0",
     "chai": "^4.1.2",
     "cross-env": "^5.0.5",
-    "mocha": "^3.5.0",
+    "mocha": "^3.5.1",
+    "phev-utils": "github:papawattu/phev-utils",
     "sinon": "^3.2.1",
     "webpack": "^3.5.6"
   },
