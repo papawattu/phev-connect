@@ -31,6 +31,7 @@ const PhevConnect = ({ mqtt } = {}) => {
         log.info('Connecting to ' + carHost + ':' + carPort);
         client.connect(carPort, carHost, () => {
             Observable.fromEvent(client, 'data').subscribe(data => {
+                log.debug('Got data ' + data.toString(16))
                 if(connected) {
                     phevMqtt.send(phevReceive, data)
                     log.debug('Car    : ' + data.toString('hex'))
