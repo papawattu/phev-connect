@@ -54,7 +54,7 @@ const PhevConnect = ({ mqtt } = {}) => {
     const disconnect = () => {
         phevMqtt.send(phevConnection, 'disconnected')
         connected = false
-        client.end()
+        client.destroy()
     }
     const connectToMqtt = () => {
         
