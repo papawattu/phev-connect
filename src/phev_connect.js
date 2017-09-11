@@ -31,8 +31,12 @@ const PhevConnect = ({ mqtt } = {}) => {
         log.info('Connecting to ' + carHost + ':' + carPort);
         client.connect(carPort, carHost, () => {
             Observable.fromEvent(client, 'data').subscribe(data => {
-                phevMqtt.send(phevReceive, data)
-                log.debug('Car    : ' + data.toString('hex'))
+                if(connected) {
+                    phevMqtt.send(phevReceive, data)
+                    log.debug('Car    : ' + data.toString('hex'))
+                } else {
+                    log.warn('Got data from car but not connected to client')
+                }
             })
         })
         client.on('connect', () => {
@@ -45,13 +49,14 @@ const PhevConnect = ({ mqtt } = {}) => {
             disconnect()
         })
         client.on('error', err => {
-            log.debug('Client socket error ' + err)
+            log.error('Client socket error ' + err)
             connected = false
             phevMqtt.send(phevError, err)
         })
     }
 
     const disconnect = () => {
+        log.info('Client disconnected')
         phevMqtt.send(phevConnection, 'disconnected')
         connected = false
         client.destroy()
@@ -66,7 +71,7 @@ const PhevConnect = ({ mqtt } = {}) => {
                 client.write(m.message)
                 log.debug('Client : ' + m.message.toString('hex'))
             } else {
-                log.debug('Received message, not sending (not connected)')
+                log.warn('Received message, not sending (not connected)')
             }
         })
         phevMqtt.messages(phevStatus).subscribe(m => {
