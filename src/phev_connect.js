@@ -38,22 +38,21 @@ const PhevConnect = ({ mqtt } = {}) => {
                     log.warn('Got data from car but not connected to client')
                 }
             })
-        })
-        client.on('connect', () => {
-            log.debug('Client connected')
-            phevMqtt.send('connection', 'connected')
-        })
-        client.on('end', () => {
-            log.debug('Client socket ended')
-            disconnect()
-        })
-        client.on('error', err => {
-            log.error('Client socket error ' + err)
-            connected = false
-            phevMqtt.send(phevError, err)
-        })
-        connected = true
-        
+            client.on('connect', () => {
+                log.debug('Client connected')
+                phevMqtt.send('connection', 'connected')
+            })
+            client.on('end', () => {
+                log.debug('Client socket ended')
+                disconnect()
+            })
+            client.on('error', err => {
+                log.error('Client socket error ' + err)
+                connected = false
+                phevMqtt.send(phevError, err)
+            })
+            connected = true
+        })        
     }
 
     const disconnect = () => {
