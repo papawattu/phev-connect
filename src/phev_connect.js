@@ -41,7 +41,6 @@ const PhevConnect = ({ mqtt } = {}) => {
         })
         client.on('connect', () => {
             log.debug('Client connected')
-            connected = true
             phevMqtt.send('connection', 'connected')
         })
         client.on('end', () => {
@@ -53,6 +52,8 @@ const PhevConnect = ({ mqtt } = {}) => {
             connected = false
             phevMqtt.send(phevError, err)
         })
+        connected = true
+        
     }
 
     const disconnect = () => {
