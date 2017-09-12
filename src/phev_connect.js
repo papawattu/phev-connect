@@ -76,5 +76,6 @@ const PhevConnect = ({ mqtt } = {}) => {
             connect: connect
         }
     }
-
-    export default PhevConnect
+}
+    
+export default PhevConnect
