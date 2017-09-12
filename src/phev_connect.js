@@ -20,7 +20,7 @@ const mqttPassword = process.env.MQTT_PASSWORD || ''
 const mqttUri = process.env.MQTT_URI || 'mqtt://secure.wattu.com'
 
 const PhevConnect = ({ mqtt } = {}) => {
-    const manager = LevelStore('./')
+    const manager = LevelStore('db')
     const phevMqtt = PhevMqtt({ mqtt, uri: mqttUri, options: 
         { 
             username: mqttUsername,
