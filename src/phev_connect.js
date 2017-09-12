@@ -61,7 +61,7 @@ const PhevConnect = ({ mqtt } = {}) => {
         phevMqtt.messages(phevSend)
             .subscribe(m => {
 
-                if (!client.destroyed) {
+                if (client.writable) {
                     client.write(m.message)
                 } else {
                     connectToCar()
