@@ -51,31 +51,30 @@ const PhevConnect = ({ mqtt } = {}) => {
                 client.destroy()
             })
         }
+    }
+    const connectToMqtt = () => {
 
-        const connectToMqtt = () => {
+        log.debug('Subscribed ' + mqttUri)
+        phevMqtt.subscribe(phevSend)
 
-            log.debug('Subscribed ' + mqttUri)
-            phevMqtt.subscribe(phevSend)
+        phevMqtt.messages(phevSend)
+            .subscribe(m => {
 
-            phevMqtt.messages(phevSend)
-                .subscribe(m => {
+                if (!client.destroyed) {
+                    client.write(m.message)
+                } else {
+                    connectToCar()
+                    client.once('connect', () => client.write(m.message))
+                }
+            })
+    }
+    const connect = () => {
+        connectToMqtt()
+    }
 
-                    if (!client.destroyed) {
-                        client.write(m.message)
-                    } else {
-                        connectToCar()
-                        client.once('connect', () => client.write(m.message))
-                    }
-                })
-        }
-        const connect = () => {
-            connectToMqtt()
-        }
-
-        return {
-            connect: connect
-        }
+    return {
+        connect: connect
     }
 }
-    
+
 export default PhevConnect
