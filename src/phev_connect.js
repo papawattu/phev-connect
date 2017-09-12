@@ -2,6 +2,7 @@ import PhevMqtt from 'phev-mqtt'
 import { log } from 'phev-utils'
 import { Observable } from 'rxjs'
 import net from 'net'
+import LevelStore from 'mqtt-level-store'
 
 const logging = process.env.DEBUG ? true : false
 const carHost = process.env.CAR_HOST || '192.168.8.46'
@@ -19,8 +20,14 @@ const mqttPassword = process.env.MQTT_PASSWORD || ''
 const mqttUri = process.env.MQTT_URI || 'mqtt://secure.wattu.com'
 
 const PhevConnect = ({ mqtt } = {}) => {
-
-    const phevMqtt = PhevMqtt({ mqtt, uri: mqttUri, options: { username: mqttUsername, password: mqttPassword } })
+    const manager = LevelStore('./')
+    const phevMqtt = PhevMqtt({ mqtt, uri: mqttUri, options: 
+        { 
+            username: mqttUsername,
+            password: mqttPassword,
+            incomingStore: manager.incoming,
+            outgoingStore: manager.outgoing 
+        }})
 
     const client = new net.Socket();
 
