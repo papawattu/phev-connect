@@ -35,7 +35,7 @@ const PhevConnect = ({ mqtt } = {}) => {
             client.on('data', data => {
                 log.debug('Car  : ' + data.toString('hex'))
                 
-                phevMqtt.send(phevSend,data)
+                phevMqtt.send(phevReceive,data)
             })
 
             client.on('connect', () => {
