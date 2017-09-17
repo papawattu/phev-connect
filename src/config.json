@@ -1,0 +1,4 @@
+{
+    "vin": "1234",
+    "mqttUri": "mqtt://localhost"
+}

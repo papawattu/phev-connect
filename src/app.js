@@ -1,18 +1,40 @@
-import PhevConnect from './phev_connect'
+import { BehaviorSubject, Observable } from 'rxjs'
+import ObservableMqtt from 'observable-mqtt'
+import PhevConnect from './phev-connect'
 
-const App = (config) => {
+const App = config => {
 
-    const phevConnect = PhevConnect(config)
-    
-    const start = () => {
-        phevConnect.connect()
+    const validateConfig = config => {
+        const { mqttUri, vin } = config
+
+        if (!mqttUri) return 'Config Error - Missing MQTT Uri'
+        if (!vin) return 'Config Error - Missing VIN'
+        
+        return undefined
     }
-    const stop = () => undefined
+
+    const errorMessage = validateConfig(config) 
     
+    if(errorMessage) throw Error(errorMessage)
+
+    const observableMqtt = ObservableMqtt({ mqtt: config.mqtt, uri: config.mqttUri })
+    
+    const { messages: connectMessages } = observableMqtt('phev/connect')
+    
+    const connected = connectMessages()
+        .distinct()
+        .share()
+        
+    const subject = new BehaviorSubject(false)
+
+    connected.subscribe(subject)
+
+    const { messages: sendMessages } = observableMqtt('phev/send')
+
     return {
-        start: start,
-        stop: stop
+        isConnected: cb => subject.subscribe(cb)
     }
 }
+
 
 export default App
