@@ -62,7 +62,7 @@ describe('isConnected', () => {
             count++
         })
 
-        client.emit('message', 'phev/connect', true)
+        client.emit('message', 'phev/connect/1234', true)
     })
     it('Should be false when disconnect message received', done => {
         let count = 0
@@ -76,8 +76,8 @@ describe('isConnected', () => {
             }
             count++
         })
-        client.emit('message', 'phev/connect', true)
-        client.emit('message', 'phev/connect', false)
+        client.emit('message', 'phev/connect/1234', true)
+        client.emit('message', 'phev/connect/1234', false)
     })
     it('Should be handle more than one subscription', done => {
         let count = 0
@@ -98,7 +98,7 @@ describe('isConnected', () => {
             }
             count++
         })
-        client.emit('message', 'phev/connect', true)
+        client.emit('message', 'phev/connect/1234', true)
 
     })
     it('Should be called once when two disconnects received', done => {
@@ -113,8 +113,8 @@ describe('isConnected', () => {
             }
             count++
         })
-        client.emit('message', 'phev/connect', false)
-        client.emit('message', 'phev/connect', false)
+        client.emit('message', 'phev/connect/1234', false)
+        client.emit('message', 'phev/connect/1234', false)
     })
     it('Should be called once when multiple connects received', done => {
         let count = 0
@@ -128,8 +128,8 @@ describe('isConnected', () => {
             }
             count++
         })
-        client.emit('message', 'phev/connect', true)
-        client.emit('message', 'phev/connect', true)
-        client.emit('message', 'phev/connect', true)
+        client.emit('message', 'phev/connect/1234', true)
+        client.emit('message', 'phev/connect/1234', true)
+        client.emit('message', 'phev/connect/1234', true)
     })
 })

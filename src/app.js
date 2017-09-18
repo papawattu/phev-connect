@@ -15,11 +15,11 @@ const App = config => {
 
     const errorMessage = validateConfig(config) 
     
-    if(errorMessage) throw Error(errorMessage)
+    if(errorMessage) throw new Error(errorMessage)
 
     const observableMqtt = ObservableMqtt({ mqtt: config.mqtt, uri: config.mqttUri })
     
-    const { messages: connectMessages } = observableMqtt('phev/connect')
+    const { messages: connectMessages } = observableMqtt('phev/connect/'+ config.vin)
     
     const connected = connectMessages()
         .distinct()
