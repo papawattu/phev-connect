@@ -1,1 +1,1 @@
-require('./app').default(require('./config'))
+require('./app').default()

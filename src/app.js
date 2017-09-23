@@ -1,40 +1,28 @@
-import { BehaviorSubject, Observable } from 'rxjs'
-import ObservableMqtt from 'observable-mqtt'
-import PhevConnect from './phev-connect'
+import PubSub from '@google-cloud/pubsub'
+import net from 'net'
+import PubSubConnection from './pubsub-connection'
 
-const App = config => {
+const App = ({ port = 8080, host = '192.168.8.46' } = {}) => {
 
-    const validateConfig = config => {
-        const { mqttUri, vin } = config
+    const client = new net.Socket()
 
-        if (!mqttUri) return 'Config Error - Missing MQTT Uri'
-        if (!vin) return 'Config Error - Missing VIN'
-        
-        return undefined
+    const send = data => {
+        if (client.writable) {
+            client.write(data)
+        } else {
+            client.connect(port, host, () => {
+                client.on('data', data => {
+                    publish(data)
+                })
+                client.write(data)
+            })
+        }
     }
 
-    const errorMessage = validateConfig(config) 
-    
-    if(errorMessage) throw new Error(errorMessage)
-
-    const observableMqtt = ObservableMqtt({ mqtt: config.mqtt, uri: config.mqttUri })
-    
-    const { messages: connectMessages } = observableMqtt('phev/connect/'+ config.vin)
-    
-    const connected = connectMessages()
-        .distinct()
-        .share()
-        
-    const subject = new BehaviorSubject(false)
-
-    connected.subscribe(subject)
-
-    const { messages: sendMessages } = observableMqtt('phev/send')
-
-    return {
-        isConnected: cb => subject.subscribe(cb)
-    }
+    const { publish } = PubSubConnection({
+        pubSub: PubSub(),
+        send: send
+    })
 }
-
 
 export default App

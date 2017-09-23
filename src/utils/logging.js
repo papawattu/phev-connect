@@ -1,1 +1,0 @@
-const log = msg => process.env.DEBUG ? console.log(msg) : undefined
