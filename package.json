@@ -35,6 +35,6 @@
   "dependencies": {
     "@google-cloud/pubsub": "^0.14.2",
     "mqtt": "^2.13.0",
-    "uuid": "^3.1.0"
+    "phev-utils": "github:papawattu/phev-utils"
   }
 }
