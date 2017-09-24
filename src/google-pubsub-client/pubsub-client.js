@@ -1,6 +1,6 @@
 import PubSub from '@google-cloud/pubsub'
 
-const PubSubClient = ({ pubSub = PubSub(), topicName = 'receive', subscriptionName = 'send' }) => {
+const PubSubClient = ({ pubSub = PubSub(), topicName = 'receive', subscriptionName = 'send' } = {}) => {
 
     let topic, publisher
 

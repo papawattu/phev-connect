@@ -1,7 +1,7 @@
-const MessagingClient = client => ({
-    start: client.start,
-    registerHandler: client.registerHandler,
-    publish: client.publish
+const MessagingClient = ({ messaging }) => ({
+    start: messaging.start,
+    registerHandler: messaging.registerHandler,
+    publish: messaging.publish
 })
 
 export default MessagingClient
