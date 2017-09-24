@@ -19,6 +19,8 @@ const PhevManager = ({ messagingClient, socketConnection, error }) => {
         })
     }
     const handler = message => {
+        log.debug('Incomming message ' + JSON.stringify(message))
+        
         if(!validateMessage(message)) {
             log.error('Invalid message ' + JSON.stringify(message))
             
