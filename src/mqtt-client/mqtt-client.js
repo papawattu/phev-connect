@@ -1,6 +1,6 @@
 import mqtt from 'mqtt'
 
-const MqttClient = ({ client = mqtt.connect('mqtt://secure.wattu.com')}) => ({
+const MqttClient = ({ client = mqtt.connect('mqtt://secure.wattu.com')} = {}) => ({
     start: () => {
         client.on('connect', () => {
             client.subscribe('receive')
