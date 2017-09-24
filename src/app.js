@@ -9,7 +9,7 @@ const App = ({ messaging = PubSubClient(), client = new net.Socket(), port = 808
     const socketConnection = SocketConnection({ client })
     const messagingClient = MessagingClient({ messaging })
 
-    PhevManager({messagingClient, socketConnection})
+    PhevManager({messagingClient, socketConnection}).start()
 }
 
 export default App

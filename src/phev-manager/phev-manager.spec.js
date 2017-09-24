@@ -13,6 +13,7 @@ const socketConnection = {}
 socketConnection.start = sinon.stub()
 socketConnection.connected = false
 socketConnection.write = sinon.stub()
+socketConnection.handleData = sinon.stub()
 
 const error = sinon.stub()
 

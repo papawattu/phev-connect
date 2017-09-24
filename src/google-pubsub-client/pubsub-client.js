@@ -21,6 +21,9 @@ const PubSubClient = ({ pubSub = PubSub(), topicName = 'receive', subscriptionNa
             handler(message.data)
             message.ack()
         })
+        subscription.on('err', err => { 
+            
+        })
     }
     return { 
         start: start,

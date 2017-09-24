@@ -1,22 +1,9 @@
 
-const SocketConnection = ({ client, publish }) => ({
-    send: data => {
-        if (client.writable) {
-            client.write(data)
-        } else {
-            
-        }
-    },
-    connect: () => {
-        new Promise ((resolve, reject) => client.connect(port, host, () => {
-                client.on('data', data => {
-                    publish(data)
-                })
-                client.on('error', err => reject(err))
-                resolve(client)
-            })
-        )
-    }
+const SocketConnection = ({ client, port = 8080, host = '192.168.8.46' }) => ({
+    write: data => client.writable ? client.write(data) : undefined,
+    start: () => client.connect(port, host),
+    handleData: handler => client.on('data', handler),
+    connected: client.writable
 })
 
 export default SocketConnection

@@ -7,6 +7,14 @@ const PhevManager = ({ messagingClient, socketConnection, error }) => {
 
     const validateMessage = validate
 
+    const startConnection = () => {
+        if(!socketConnection.connected) {
+            socketConnection.start()
+        }
+        socketConnection.handleData(data => {
+            messagingClient.publish(data)
+        })
+    }
     const handler = message => {
         if(!validateMessage(message)) {
             error('Invalid message')
@@ -14,9 +22,7 @@ const PhevManager = ({ messagingClient, socketConnection, error }) => {
         }
 
         if(isStartMessage(message)) {
-            if(!socketConnection.connected) {
-                socketConnection.start()
-            }
+            startConnection()
         }
 
         socketConnection.write(message)
