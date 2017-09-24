@@ -11,3 +11,5 @@ const MqttClient = ({ client = mqtt.connect('mqtt://secure.wattu.com')}) => ({
     },
     publish: client.publish
 })
+
+export default MqttClient
