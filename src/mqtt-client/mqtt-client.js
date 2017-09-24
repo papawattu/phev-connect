@@ -9,10 +9,10 @@ const MqttClient = ({ client = mqtt.connect('mqtt://secure.wattu.com')} = {}) =>
     registerHandler: handler => {
         log.debug('Registered Handler')
         
-        client.subscribe('receive')
+        client.subscribe('phev/send')
         client.on('message', handler)
     },
-    publish: message => client.publish('send', message)
+    publish: message => client.publish('phev/receive', message)
 })
 
 export default MqttClient
