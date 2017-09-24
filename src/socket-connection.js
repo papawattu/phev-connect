@@ -4,13 +4,18 @@ const SocketConnection = ({ client, publish }) => ({
         if (client.writable) {
             client.write(data)
         } else {
-            client.connect(port, host, () => {
+            
+        }
+    },
+    connect: () => {
+        new Promise ((resolve, reject) => client.connect(port, host, () => {
                 client.on('data', data => {
                     publish(data)
                 })
-                client.write(data)
+                client.on('error', err => reject(err))
+                resolve(client)
             })
-        }
+        )
     }
 })
 
