@@ -10,7 +10,7 @@ const MqttClient = ({ client = mqtt.connect('mqtt://secure.wattu.com')} = {}) =>
         log.debug('Registered Handler')
         
         client.subscribe('phev/send')
-        client.on('message', handler)
+        client.on('message', (topic, message) => handler(message))
     },
     publish: message => client.publish('phev/receive', message)
 })
