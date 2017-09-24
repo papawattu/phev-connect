@@ -9,7 +9,7 @@ const MqttClient = ({ client = mqtt.connect('mqtt://secure.wattu.com')} = {}) =>
     registerHandler: handler => {
         client.on('message', handler)
     },
-    publish: client.publish
+    publish: message => client.publish('send', message)
 })
 
 export default MqttClient

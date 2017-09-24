@@ -28,9 +28,7 @@ const PhevManager = ({ messagingClient, socketConnection, error }) => {
         socketConnection.write(message)
     }
     return {
-        start: () => messagingClient.registerHandler({
-            handler: handler
-        }),
+        start: () => messagingClient.registerHandler(handler),
         publish: message => messagingClient.publish(message)
     }
 }
