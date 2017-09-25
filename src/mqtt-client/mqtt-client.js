@@ -3,7 +3,7 @@ import { log } from 'phev-utils'
 
 const MqttClient = ({ mqtt, mqttUri, topicName = 'phev/receive', subscriptionName = 'phev/send' } = {}) => {
 
-    const client = null 
+    let client = null 
 
     return {
         start: () => {
