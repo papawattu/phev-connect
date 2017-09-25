@@ -1,7 +1,7 @@
 import mqtt from 'mqtt'
 import { log } from 'phev-utils'
 
-const MqttClient = ({ mqtt, mqttUri, topicName = 'phev/receive', subscriptionName = 'phev/send' } = {}) => {
+const MqttClient = ({ mqtt = mqtt, mqttUri, topicName = 'phev/receive', subscriptionName = 'phev/send' } = {}) => {
 
     let client = null 
 
