@@ -17,7 +17,7 @@ describe('Socket Connection', () => {
         client.write.reset()
         client.connect.reset()
         handler.reset()        
-        sut = SocketConnection({ client })
+        sut = SocketConnection({ client, host: '192.168.8.46', port: 8080 })
     })
     it('Should bootstrap', () => {
 
