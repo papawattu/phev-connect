@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run test-unit",
-    "test-unit": "cross-env NODE_ENV=test DEBUG=true mocha --require babel-polyfill --compilers js:babel-core/register --recursive ./src/**/*.spec.js",
+    "test-unit": "cross-env NODE_ENV=test mocha --require babel-polyfill --compilers js:babel-core/register --recursive ./src/**/*.spec.js",
     "test-watch": "cross-env NODE_ENV=test DEBUG=true mocha --watch --require babel-polyfill --compilers js:babel-core/register --recursive ./src/**/*.spec.js",
     "build": "babel src -d lib",
     "start": "npm run build && node lib",
@@ -28,13 +28,13 @@
     "chai": "^4.1.2",
     "cross-env": "^5.0.5",
     "mocha": "^3.5.3",
-    "observable-mqtt": "github:papawattu/observable-mqtt",
     "rimraf": "^2.6.2",
     "sinon": "^3.3.0"
   },
   "dependencies": {
     "@google-cloud/pubsub": "^0.14.2",
     "mqtt": "^2.13.0",
+    "phev-messaging": "github:papawattu/phev-messaging",
     "phev-utils": "github:papawattu/phev-utils"
   }
 }

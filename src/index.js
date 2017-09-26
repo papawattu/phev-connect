@@ -5,7 +5,7 @@ const host      = process.env.HOST || '192.168.8.46'
 const mqttUri   = process.env.MQTTURI || 'mqtt://secure.wattu.com'
 
 const isMqtt    = process.env.TRANSPORT === 'mqtt'
-const messaging = isMqtt ? require('./mqtt-client').default({mqttUri}) : require('./google-pubsub-client').default()
+const messaging = isMqtt ? require('phev-messaging').MqttClient({mqttUri}) : require('phev-messaging').PubSubClient()
 
 log.info('Messaging is ' + (process.env.TRANSPORT || 'Google PubSub'))
 log.info('Server host is ' + host)
