@@ -9,9 +9,9 @@ const PhevManager = ({ incoming: messagingClient, outgoing: socketConnection, er
 
     const startConnection = () => {
         log.debug('Starting connection')
-        if(!socketConnection.connected) {
-            socketConnection.start()
-        }
+        
+        socketConnection.start()
+        
         socketConnection.registerHandler(data => {
             log.debug('Publish data ' + JSON.stringify(data))
             

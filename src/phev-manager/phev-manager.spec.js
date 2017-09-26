@@ -46,13 +46,6 @@ describe('Phev Manager', () => {
         sut.start()
         assert(socketConnection.start.called, 'Expected socket client to be called')
     })
-    it('Should not call start if already connected', () => {        
-        messagingClient.registerHandler.yields(Buffer.from([0xf2,0x0a,0x00,0x01,0x02,0x00,0x00,0x00,0x00,0x00,0x00,0xff]))
-        socketConnection.connected = true
-        socketConnection.start.reset()
-        sut.start()
-        assert(socketConnection.start.notCalled, 'Expected socket client NOT to be called')
-    })
     it('Should send valid message to client', () => {        
         const message = Buffer.from([0xf2,0x0a,0x00,0x01,0x02,0x00,0x00,0x00,0x00,0x00,0x00,0xff])
 
