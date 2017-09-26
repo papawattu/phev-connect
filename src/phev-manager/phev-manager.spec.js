@@ -12,8 +12,8 @@ messagingClient.publish = sinon.stub()
 const socketConnection = {}
 socketConnection.start = sinon.stub()
 socketConnection.connected = false
-socketConnection.write = sinon.stub()
-socketConnection.handleData = sinon.stub()
+socketConnection.publish = sinon.stub()
+socketConnection.registerHandler = sinon.stub()
 
 const error = sinon.stub()
 
@@ -21,8 +21,8 @@ describe('Phev Manager', () => {
     let sut = null
     beforeEach(() => {
         sut = PhevManager({
-            messagingClient,
-            socketConnection,
+            incoming: messagingClient,
+            outgoing: socketConnection,
             error,
         })
 
@@ -39,7 +39,7 @@ describe('Phev Manager', () => {
         messagingClient.registerHandler.yields(Buffer.from([0x00]))
         sut.start()
         assert(error.calledWith('Invalid message'), 'Expected error handler to be called')
-        assert(socketConnection.write.notCalled)
+        assert(socketConnection.publish.notCalled)
     })
     it('Should start connect to host when start message received', () => {        
         messagingClient.registerHandler.yields(Buffer.from([0xf2,0x0a,0x00,0x01,0x02,0x00,0x00,0x00,0x00,0x00,0x00,0xff]))
@@ -58,6 +58,6 @@ describe('Phev Manager', () => {
 
         messagingClient.registerHandler.yields(message)
         sut.start()
-        assert(socketConnection.write.calledWith(message), 'Expected write to be called')
+        assert(socketConnection.publish.calledWith(message), 'Expected write to be called')
     })
 })

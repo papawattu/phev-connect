@@ -1,6 +1,6 @@
 import { log, validate } from 'phev-utils'
 
-const PhevManager = ({ messagingClient, socketConnection, error }) => {
+const PhevManager = ({ incoming: messagingClient, outgoing: socketConnection, error }) => {
     const client = messagingClient.start()
 
     const isStartMessage = message => message[0] === 0xf2
@@ -12,7 +12,7 @@ const PhevManager = ({ messagingClient, socketConnection, error }) => {
         if(!socketConnection.connected) {
             socketConnection.start()
         }
-        socketConnection.handleData(data => {
+        socketConnection.registerHandler(data => {
             log.debug('Publish data ' + JSON.stringify(data))
             
             messagingClient.publish(data)
@@ -33,7 +33,7 @@ const PhevManager = ({ messagingClient, socketConnection, error }) => {
         }
         log.debug('Write data ' + JSON.stringify(message))
         
-        socketConnection.write(message)
+        socketConnection.publish(message)
     }
     return {
         start: () => messagingClient.registerHandler(handler),
