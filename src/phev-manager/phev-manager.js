@@ -29,6 +29,7 @@ const PhevManager = ({ incoming: messagingClient, outgoing: socketConnection, er
         }
 
         if(isStartMessage(message)) {
+            log.debug('Start message received')
             startConnection()
         }
         log.debug('Write data ' + JSON.stringify(message))
