@@ -6,11 +6,19 @@ const MqttClient = ({ mqtt = _mqtt, mqttUri, topicName = 'phev/receive', subscri
     let client = null 
 
     return {
-        start: () => {
+        start: () => new Promise((resolve, reject) => {
             log.info('Started MQTT')
             client = mqtt.connect(mqttUri)
-            client.on('connect', () => log.info('MQTT connected'))
-    },
+            
+            client.on('error', err => {
+                log.error(err)
+                reject(err)
+            })
+            client.on('connect', () => {
+                log.info('MQTT connected')
+                resolve(client)
+            })
+    }),
         registerHandler: handler => {
             log.debug('Registered Handler')
 
