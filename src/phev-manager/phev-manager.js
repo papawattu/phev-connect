@@ -1,27 +1,30 @@
 import { log, validate } from 'phev-utils'
 
 const PhevManager = ({ incoming: messagingClient, outgoing: socketConnection, error }) => {
-    const client = messagingClient.start()
-
+    
     const isStartMessage = message => message[0] === 0xf2
 
-    const validateMessage = validate
-
+    const socketHandler = data => {
+            log.debug('Publish response data ' + JSON.stringify(data))
+            
+            messagingClient.publish(data)
+        }        
+    }
     const startConnection = () => {
         log.debug('Starting connection')
         
-        socketConnection.start()
-        
-        socketConnection.registerHandler(data => {
-            log.debug('Publish data ' + JSON.stringify(data))
-            
-            messagingClient.publish(data)
-        })
-    }
+        socketConnection.start(message)
+            .then(() => {
+                socketConnection.registerHandler(socketHandler)
+                log.debug('Write data ' + JSON.stringify(message))
+                
+                socketConnection.publish(message)
+            })
+        }
     const handler = message => {
         log.debug('Incomming message ' + JSON.stringify(message))
         
-        if(!validateMessage(message)) {
+        if(!validate(message)) {
             log.error('Invalid message ' + JSON.stringify(message))
             
             error('Invalid message')
@@ -30,14 +33,20 @@ const PhevManager = ({ incoming: messagingClient, outgoing: socketConnection, er
 
         if(isStartMessage(message)) {
             log.debug('Start message received')
-            startConnection()
+            startConnection(message)
+        } else {
+            log.debug('Write data ' + JSON.stringify(message))
+            
+            socketConnection.publish(message)
         }
-        log.debug('Write data ' + JSON.stringify(message))
-        
-        socketConnection.publish(message)
     }
     return {
-        start: () => messagingClient.registerHandler(handler),
+        start: () => {
+            messagingClient.start()
+                .then(() => {
+                    messagingClient.registerHandler(handler)
+                })
+        },
     }
 }
 
