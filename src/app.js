@@ -3,7 +3,7 @@ import { MessagingClient, SocketClient } from 'phev-messaging'
 import { log } from 'phev-utils'
 
 import net from 'net'
-import { log } from 'phev-utils'
+
 
 const SocketClient2 = ({ client = new net.Socket(), host, port } = {}) => ({
     publish: data => client.writable ? client.write(data) : undefined,
