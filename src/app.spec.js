@@ -7,7 +7,7 @@ const messagingClient = {}
 messagingClient.registerHandler = sinon.stub()
 
 messagingClient.start = sinon.stub()
-
+messagingClient.start.returns(Promise.resolve())
 describe('App', () => {
     let sut 
     beforeEach(() => {

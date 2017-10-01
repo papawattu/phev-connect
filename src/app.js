@@ -39,10 +39,20 @@ const SocketClient2 = ({ client = new net.Socket(), host, port } = {}) => ({
 const App = ({ messaging, port, host } = {}) => {
 
     log.info('Starting PHEV connect')
-    const socketConnection = MessagingClient({ messaging: SocketClient2({ port, host })})
-    const messagingClient = MessagingClient({ messaging })
+    const socketConnection = MessagingClient(
+        { 
+            messaging: SocketClient2({ port, host })
+        })
+    const messagingClient = MessagingClient(
+        { 
+            messaging 
+        })
 
-    PhevManager({ incoming: messagingClient, outgoing: socketConnection, error: err => log.error(err)}).start()
+    PhevManager({ 
+        incoming: messagingClient, 
+        outgoing: socketConnection, 
+        error: err => log.error(err)
+    }).start()
 }
 
 export default App
