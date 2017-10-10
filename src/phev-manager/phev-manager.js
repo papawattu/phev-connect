@@ -10,14 +10,12 @@ const PhevManager = ({ incoming: messaging, outgoing: socketConnection, error })
         messaging.publish(data)
     }
 
-    const startConnection = () => {
+    const startConnection = message=> {
         log.debug('Starting connection')
 
         socketConnection.start(message)
             .then(() => {
                 socketConnection.registerHandler(socketHandler)
-                log.debug('Write data ' + JSON.stringify(message))
-
                 socketConnection.publish(message)
             })
     }
@@ -47,6 +45,10 @@ const PhevManager = ({ incoming: messaging, outgoing: socketConnection, error })
                     messaging.registerHandler(handler)
                 })
         },
+        stop: () => Promise.all([
+                messaging.stop(),
+                socketConnection.stop()
+            ])
     }
 }
 
